@@ -4,18 +4,19 @@
   "description": "Particles effect",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/clementlmn/particles-effect.git"
+    "url": "git+https://github.com/clementlmn/particles-m1.git"
   },
   "author": "Clément Lemoine",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/clementlmn/particles-effect/issues"
+    "url": "https://github.com/clementlmn/particles-m1/issues"
   },
-  "homepage": "https://github.com/clementlmn/particles-effect#readme",
+  "homepage": "https://github.com/clementlmn/particles-m1#readme",
   "devDependencies": {
     "css-loader": "^0.28.7",
     "html-webpack-plugin": "^2.30.1",
@@ -23,5 +24,8 @@
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "dat.gui": "^0.6.1"
   }
 }

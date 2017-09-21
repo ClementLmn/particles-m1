@@ -1,9 +1,17 @@
+let _size = 5;
 class Particle{
+
+    static get size() { 
+        return _size; 
+    }
+
+    static set size(value) { 
+        _size = value; 
+    }
+
     constructor(canvas){
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.w = Math.random() * 5 + 5;
-        this.h = Math.random() * 5 + 5;
         this.speedX = Math.random() > 0.5 ? Math.random() : -Math.random();
         this.speedY = Math.random() > 0.5 ? Math.random() : -Math.random();
         this.angleX = Math.random() > 0.5 ? Math.random() : -Math.random();
@@ -27,7 +35,7 @@ class Particle{
     }
 
     draw(ctx){
-        ctx.fillRect(this.x,this.y,this.w,this.h);
+        ctx.fillRect(this.x,this.y,Particle.size,Particle.size);
     }
 }
 
