@@ -34,6 +34,26 @@ class Particle{
         } 
     }
 
+    toCenter(point){
+        const pX = point.x;
+        const pY = point.y;
+
+        this.x += this.speedX + this.angleX;
+        this.y += this.speedY + this.angleY;
+
+        if(this.x > pX){
+            this.angleX = -Math.random() * 10 ;
+        }else{
+            this.angleX = Math.random() * 10;
+        }
+
+        if(this.y > pY){
+            this.angleY = -Math.random() * 10;
+        }else{
+            this.angleY = Math.random() * 10;
+        }
+    }
+
     draw(ctx){
         ctx.fillRect(this.x,this.y,Particle.size,Particle.size);
     }
