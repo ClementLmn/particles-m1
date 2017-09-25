@@ -8,12 +8,13 @@ ctx.fillStyle = 'green';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2};
+let centerPointBad= {active: false, x: canvas.width/2, y:canvas.height/2};
 
 
-let NUMBER_PARTICLE = 20;
+let NUMBER_PARTICLE = 5000;
 let particles = [];
 
-init(centerPoint);
+init(centerPoint, centerPointBad);
 
 for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new Particle(canvas));
 
@@ -22,6 +23,11 @@ const animate = () =>{
     if(centerPoint.active){
         particles.forEach(p => {
             p.toCenter(centerPoint);
+            p.draw(ctx);
+        });
+    }else if(centerPointBad.active){
+        particles.forEach(p => {
+            p.toCenterBad(centerPointBad);
             p.draw(ctx);
         });
     }else{

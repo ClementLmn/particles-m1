@@ -1,4 +1,5 @@
-let _size = 5;
+let _size = 0.5;
+let _diam = 25;
 class Particle{
 
     static get size() { 
@@ -7,6 +8,14 @@ class Particle{
 
     static set size(value) { 
         _size = value; 
+    }
+
+    static get diam() { 
+        return _diam; 
+    }
+
+    static set diam(value) { 
+        _diam = value; 
     }
 
     constructor(canvas){
@@ -37,24 +46,49 @@ class Particle{
     toCenter(point){
         const pX = point.x;
         const pY = point.y;
+        const dX = this.x-pX;
+        const dY = this.y-pY;
+        const dist = Math.sqrt(dX * dX + dY * dY);
 
-        this.x += this.speedX + this.angleX;
-        this.y += this.speedY + this.angleY;
+        const a = Math.atan2(dY, dX);
+        const velocity = dist / 3;
 
-        if(this.x > pX){
-            this.angleX = -Math.random() * 10 ;
+        const magnitudeX = Math.random() * -10 * Math.cos(a);
+        const magnitudeY = Math.random() * -10 * Math.sin(a);
+        
+        if(dist > _diam){
+            this.x += magnitudeX;
+            this.y += magnitudeY;
         }else{
-            this.angleX = Math.random() * 10;
-        }
-
-        if(this.y > pY){
-            this.angleY = -Math.random() * 10;
-        }else{
-            this.angleY = Math.random() * 10;
+            this.angleY = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+            this.angleX = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+            this.x += this.speedX + this.angleX;
+            this.y += this.speedY + this.angleY;
         }
     }
 
+    toCenterBad(point){ 
+        const pX = point.x; 
+        const pY = point.y; 
+ 
+        this.x += this.speedX + this.angleX; 
+        this.y += this.speedY + this.angleY; 
+ 
+        if(this.x > pX){ 
+            this.angleX = -Math.random() * 10 ; 
+        }else{ 
+            this.angleX = Math.random() * 10; 
+        } 
+ 
+        if(this.y > pY){ 
+            this.angleY = -Math.random() * 10; 
+        }else{ 
+            this.angleY = Math.random() * 10; 
+        } 
+    } 
+
     draw(ctx){
+        ctx.fillStyle = 'white';
         ctx.fillRect(this.x,this.y,Particle.size,Particle.size);
     }
 }

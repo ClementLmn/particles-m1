@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const plugins = [ new HtmlWebpackPlugin({ template: 'src/index.html' })];
-plugins.push(new UglifyJsPlugin());
+// plugins.push(new UglifyJsPlugin());
 
 module.exports = {
     entry: './src/main.js',
