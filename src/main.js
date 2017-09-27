@@ -7,14 +7,13 @@ const ctx = canvas.getContext('2d');
 ctx.fillStyle = 'green';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2};
-let centerPointBad= {active: false, x: canvas.width/2, y:canvas.height/2};
+let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2, otherAttraction: false};
 
 
 let NUMBER_PARTICLE = 5000;
 let particles = [];
 
-init(centerPoint, centerPointBad);
+init(centerPoint);
 
 for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new Particle(canvas));
 
@@ -23,11 +22,6 @@ const animate = () =>{
     if(centerPoint.active){
         particles.forEach(p => {
             p.toCenter(centerPoint);
-            p.draw(ctx);
-        });
-    }else if(centerPointBad.active){
-        particles.forEach(p => {
-            p.toCenterBad(centerPointBad);
             p.draw(ctx);
         });
     }else{
@@ -39,3 +33,11 @@ const animate = () =>{
     requestAnimationFrame(animate);
 };
 animate();
+document.addEventListener('click', (e) => {
+    centerPoint.active = !centerPoint.active;
+}, false);
+
+document.addEventListener('mousemove', (e) => {
+    centerPoint.x = e.clientX;
+    centerPoint.y = e.clientY;
+  }, false);

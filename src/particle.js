@@ -1,5 +1,5 @@
 let _size = 0.5;
-let _diam = 25;
+let _diam = 50;
 class Particle{
 
     static get size() { 
@@ -44,47 +44,51 @@ class Particle{
     }
 
     toCenter(point){
-        const pX = point.x;
-        const pY = point.y;
-        const dX = this.x-pX;
-        const dY = this.y-pY;
-        const dist = Math.sqrt(dX * dX + dY * dY);
-
-        const a = Math.atan2(dY, dX);
-        const velocity = dist / 3;
-
-        const magnitudeX = Math.random() * -10 * Math.cos(a);
-        const magnitudeY = Math.random() * -10 * Math.sin(a);
-        
-        if(dist > _diam){
-            this.x += magnitudeX;
-            this.y += magnitudeY;
+        if(!point.otherAttraction){
+            const pX = point.x;
+            const pY = point.y;
+            const dX = this.x-pX;
+            const dY = this.y-pY;
+            const dist = Math.sqrt(dX * dX + dY * dY);
+    
+            const a = Math.atan2(dY, dX);
+            const velocity = dist / 3;
+    
+            const magnitudeX = Math.random() * -10 * Math.cos(a);
+            const magnitudeY = Math.random() * -10 * Math.sin(a);
+            
+            if(dist > _diam){
+                this.x += magnitudeX;
+                this.y += magnitudeY;
+            }else{
+                this.angleY = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+                this.angleX = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+                this.x += this.speedX + this.angleX;
+                this.y += this.speedY + this.angleY;
+            }
         }else{
-            this.angleY = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
-            this.angleX = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
-            this.x += this.speedX + this.angleX;
-            this.y += this.speedY + this.angleY;
+            const pX = point.x; 
+            const pY = point.y; 
+     
+            this.x += this.speedX + this.angleX; 
+            this.y += this.speedY + this.angleY; 
+     
+            if(this.x > pX){ 
+                this.angleX = -Math.random() * 10 ; 
+            }else{ 
+                this.angleX = Math.random() * 10; 
+            } 
+     
+            if(this.y > pY){ 
+                this.angleY = -Math.random() * 10; 
+            }else{ 
+                this.angleY = Math.random() * 10; 
+            } 
         }
     }
 
     toCenterBad(point){ 
-        const pX = point.x; 
-        const pY = point.y; 
- 
-        this.x += this.speedX + this.angleX; 
-        this.y += this.speedY + this.angleY; 
- 
-        if(this.x > pX){ 
-            this.angleX = -Math.random() * 10 ; 
-        }else{ 
-            this.angleX = Math.random() * 10; 
-        } 
- 
-        if(this.y > pY){ 
-            this.angleY = -Math.random() * 10; 
-        }else{ 
-            this.angleY = Math.random() * 10; 
-        } 
+        
     } 
 
     draw(ctx){
