@@ -69,7 +69,7 @@
 
 "use strict";
 let _size = 0.5;
-let _diam = 25;
+let _diam = 50;
 class Particle{
 
     static get size() { 
@@ -114,47 +114,51 @@ class Particle{
     }
 
     toCenter(point){
-        const pX = point.x;
-        const pY = point.y;
-        const dX = this.x-pX;
-        const dY = this.y-pY;
-        const dist = Math.sqrt(dX * dX + dY * dY);
-
-        const a = Math.atan2(dY, dX);
-        const velocity = dist / 3;
-
-        const magnitudeX = Math.random() * -10 * Math.cos(a);
-        const magnitudeY = Math.random() * -10 * Math.sin(a);
-        
-        if(dist > _diam){
-            this.x += magnitudeX;
-            this.y += magnitudeY;
+        if(!point.otherAttraction){
+            const pX = point.x;
+            const pY = point.y;
+            const dX = this.x-pX;
+            const dY = this.y-pY;
+            const dist = Math.sqrt(dX * dX + dY * dY);
+    
+            const a = Math.atan2(dY, dX);
+            const velocity = dist / 3;
+    
+            const magnitudeX = Math.random() * -10 * Math.cos(a);
+            const magnitudeY = Math.random() * -10 * Math.sin(a);
+            
+            if(dist > _diam){
+                this.x += magnitudeX;
+                this.y += magnitudeY;
+            }else{
+                this.angleY = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+                this.angleX = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
+                this.x += this.speedX + this.angleX;
+                this.y += this.speedY + this.angleY;
+            }
         }else{
-            this.angleY = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
-            this.angleX = Math.random() > 0.5 ? Math.random() * 8 : -Math.random() * 8;
-            this.x += this.speedX + this.angleX;
-            this.y += this.speedY + this.angleY;
+            const pX = point.x; 
+            const pY = point.y; 
+     
+            this.x += this.speedX + this.angleX; 
+            this.y += this.speedY + this.angleY; 
+     
+            if(this.x > pX){ 
+                this.angleX = -Math.random() * 10 ; 
+            }else{ 
+                this.angleX = Math.random() * 10; 
+            } 
+     
+            if(this.y > pY){ 
+                this.angleY = -Math.random() * 10; 
+            }else{ 
+                this.angleY = Math.random() * 10; 
+            } 
         }
     }
 
     toCenterBad(point){ 
-        const pX = point.x; 
-        const pY = point.y; 
- 
-        this.x += this.speedX + this.angleX; 
-        this.y += this.speedY + this.angleY; 
- 
-        if(this.x > pX){ 
-            this.angleX = -Math.random() * 10 ; 
-        }else{ 
-            this.angleX = Math.random() * 10; 
-        } 
- 
-        if(this.y > pY){ 
-            this.angleY = -Math.random() * 10; 
-        }else{ 
-            this.angleY = Math.random() * 10; 
-        } 
+        
     } 
 
     draw(ctx){
@@ -184,14 +188,13 @@ const ctx = canvas.getContext('2d');
 ctx.fillStyle = 'green';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2};
-let centerPointBad= {active: false, x: canvas.width/2, y:canvas.height/2};
+let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2, otherAttraction: false};
 
 
 let NUMBER_PARTICLE = 5000;
 let particles = [];
 
-Object(__WEBPACK_IMPORTED_MODULE_2__gui__["a" /* init */])(centerPoint, centerPointBad);
+Object(__WEBPACK_IMPORTED_MODULE_2__gui__["a" /* init */])(centerPoint);
 
 for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new __WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */](canvas));
 
@@ -200,11 +203,6 @@ const animate = () =>{
     if(centerPoint.active){
         particles.forEach(p => {
             p.toCenter(centerPoint);
-            p.draw(ctx);
-        });
-    }else if(centerPointBad.active){
-        particles.forEach(p => {
-            p.toCenterBad(centerPointBad);
             p.draw(ctx);
         });
     }else{
@@ -216,6 +214,14 @@ const animate = () =>{
     requestAnimationFrame(animate);
 };
 animate();
+document.addEventListener('click', (e) => {
+    centerPoint.active = !centerPoint.active;
+}, false);
+
+document.addEventListener('mousemove', (e) => {
+    centerPoint.x = e.clientX;
+    centerPoint.y = e.clientY;
+  }, false);
 
 
 /***/ }),
@@ -811,11 +817,10 @@ module.exports = function (css) {
 
 
 
-const init = (center, centerBad) => {
+const init = (center) => {
     const gui = new __WEBPACK_IMPORTED_MODULE_1_dat_gui_build_dat_gui_js___default.a.GUI();
     gui.add(__WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */], 'size');
-    gui.add(center, 'active');
-    gui.add(centerBad, 'active');
+    gui.add(center, 'otherAttraction');
     gui.add(__WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */], 'diam');
 };
 
