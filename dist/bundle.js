@@ -194,6 +194,9 @@ let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2, otherAttr
 let NUMBER_PARTICLE = 5000;
 let particles = [];
 
+javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
+
+
 Object(__WEBPACK_IMPORTED_MODULE_2__gui__["a" /* init */])(centerPoint);
 
 for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new __WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */](canvas));
