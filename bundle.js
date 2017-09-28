@@ -191,7 +191,7 @@ canvas.height = window.innerHeight;
 let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2, otherAttraction: false};
 
 
-let NUMBER_PARTICLE = 5000;
+let NUMBER_PARTICLE = 2500;
 let particles = [];
 
 javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
