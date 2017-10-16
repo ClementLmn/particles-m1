@@ -1,4 +1,4 @@
-let _size = 0.5;
+let _size = 0.75;
 let _diam = 50;
 class Particle{
 

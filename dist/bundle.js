@@ -68,7 +68,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-let _size = 0.5;
+let _size = 0.75;
 let _diam = 50;
 class Particle{
 
@@ -191,15 +191,26 @@ canvas.height = window.innerHeight;
 let centerPoint= {active: false, x: canvas.width/2, y:canvas.height/2, otherAttraction: false};
 
 
-let NUMBER_PARTICLE = 2500;
-let particles = [];
+let NUMBER_PARTICLE;
+let particles;
+
+const refreshNumber = () => {
+    particles = [];
+    if(window.innerWidth < 550){
+        NUMBER_PARTICLE = 700;
+    }else if (window.innerWidth < 960){
+        NUMBER_PARTICLE = 1500;
+    }else{
+        NUMBER_PARTICLE = 2500;
+    }
+    for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new __WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */](canvas));
+}
+
+refreshNumber();
 
 javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
 
-
 Object(__WEBPACK_IMPORTED_MODULE_2__gui__["a" /* init */])(centerPoint);
-
-for(let i = 0; i <= NUMBER_PARTICLE; i++) particles.push(new __WEBPACK_IMPORTED_MODULE_0__particle__["a" /* default */](canvas));
 
 const animate = () =>{
     ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -217,14 +228,34 @@ const animate = () =>{
     requestAnimationFrame(animate);
 };
 animate();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    refreshNumber();
+});
+
 document.addEventListener('click', (e) => {
+    centerPoint.active = !centerPoint.active;
+}, false);
+
+document.addEventListener('touchstart', (e) => {
+    centerPoint.active = !centerPoint.active;
+}, false);
+
+document.addEventListener('touchend', (e) => {
     centerPoint.active = !centerPoint.active;
 }, false);
 
 document.addEventListener('mousemove', (e) => {
     centerPoint.x = e.clientX;
     centerPoint.y = e.clientY;
-  }, false);
+}, false);
+
+document.addEventListener('touchmove', (e) => {
+    centerPoint.x = e.targetTouches[0].pageX;
+    centerPoint.y = e.targetTouches[0].pageY;
+}, false);
 
 
 /***/ }),
@@ -267,7 +298,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\r\n    width:  100%;\r\n\theight: 100%;\r\n\tmargin: 0px;\r\n}\r\ncanvas{\r\n\tdisplay: block;\r\n\tbackground: black;\r\n}", ""]);
+exports.push([module.i, "html, body {\n    width:  100%;\n\theight: 100%;\n\tmargin: 0px;\n}\ncanvas{\n\tdisplay: block;\n\tbackground: black;\n}", ""]);
 
 // exports
 
